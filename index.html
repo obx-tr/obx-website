@@ -3,196 +3,465 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OBX Endüstriyel Danışmanlık </title>
+    <title>OBX | Solving The Unseen</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Lora:wght@400;600;700&display=swap" rel="stylesheet">
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --light-bg: #E8E6DA;
+            --dark-text: #333333;
+            --accent-color: #A08A7D;
+            --border-color: rgba(65, 64, 62, 0.2);
+            --particle-color: rgba(65, 64, 62, 0.5);
+            --line-color: rgba(65, 64, 62, 0.2);
         }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
-            color: #ffffff;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
+            font-family: 'Lato', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+            overflow-x: hidden;
         }
         
-        .container {
-            text-align: center;
-            padding: 2rem;
-            padding-bottom: 4rem; 
-            max-width: 800px;
-            animation: fadeIn 1.5s ease-out;
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
         }
-        
-        .logo {
-            font-size: 5rem;
-            font-weight: 900;
-            letter-spacing: -0.05em;
-            margin-bottom: 1rem;
-            background: linear-gradient(90deg, #ffffff 0%, #808080 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shimmer 3s ease-in-out infinite;
+
+        .page-container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
-        
-        .tagline {
-            font-size: 1.2rem;
-            font-weight: 300;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            opacity: 0.7;
-            margin-bottom: 3rem;
-        }
-        
-        .description {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            opacity: 0.9;
-            margin-bottom: 3rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .status {
-            display: inline-block;
-            padding: 0.8rem 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50px;
-            font-size: 0.9rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            margin-bottom: 3rem;
-        }
-        
-        .contact {
-            margin-top: 2rem;
-        }
-        
-        .contact a {
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 1rem;
-            opacity: 0.7;
-            transition: opacity 0.3s ease;
-            display: inline-block;
-            margin: 0 1rem;
-        }
-        
-        .contact a:hover {
-            opacity: 1;
-        }
-        
-        .expertise {
+
+        .hero-section {
+            height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1rem;
-            margin-top: 3rem;
+            justify-content: center;
+            text-align: center;
+            animation: fadeInFromTop 1s ease-out;
         }
-        
-        .expertise-item {
-            font-size: 0.9rem;
-            opacity: 0.6;
-            position: relative;
-            padding-left: 1rem;
+
+        .hero-section .logo img {
+            width: 100%;
+            max-width: 320px;
+            margin-bottom: 2rem;
         }
-        
-        .expertise-item:before {
-            content: "▪";
+
+        .scroll-down-indicator {
             position: absolute;
-            left: 0;
-            color: #808080;
+            bottom: 30px;
+            opacity: 0.7;
+            animation: bounce 2s infinite;
+            cursor: pointer;
+            color: var(--dark-text);
+        }
+
+        .scroll-down-indicator svg {
+            width: 60px;
+            height: 60px;
+        }
+
+        .content-section {
+            padding: 6rem 0;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .content-section.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-layout {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 5rem;
+            align-items: center;
         }
         
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .content-section:nth-child(even) .section-image {
+            order: -1;
+        }
+
+        .section-text h2 {
+            font-family: 'Lora', serif;
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            color: var(--dark-text);
+            line-height: 1.2;
+        }
+        .section-text p { 
+            line-height: 1.8; 
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Görsel stilleri kaldırıldı, sadece layout için temel div kalacak. */
+        .section-image {
+            position: relative;
+        }
+
+        .service-list {
+            list-style: none;
+            margin-top: 2rem;
+            padding: 0;
+        }
+        .service-list li {
+            padding: 1.2rem 0;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 700;
+            display: flex;
+            align-items: flex-start;
+            transition: background-color 0.3s ease;
+            border-radius: 5px;
+            padding-left: 10px;
+            margin-left: -10px;
+        }
+        .service-list li:hover {
+            background-color: rgba(65, 64, 62, 0.05);
+        }
+         .service-list li::before {
+            content: '›';
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            color: var(--accent-color);
+            line-height: 1;
+        }
+        .service-list span {
+            font-weight: 400;
+            display: block;
+            margin-top: 0.35rem;
+            opacity: 0.8;
+            padding-left: 2.1rem;
         }
         
-        @keyframes shimmer {
-            0%, 100% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
+        .contact-link {
+            color: var(--dark-text);
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.3s;
+        }
+        .contact-link:hover {
+            color: var(--accent-color);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border-color);
+            margin-top: 4rem;
+            font-size: 0.9rem;
+            opacity: 0.7;
         }
         
-        .background-text {
-            position: fixed;
-            font-size: 20vw;
-            font-weight: 900;
-            opacity: 0.02;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-10deg);
-            pointer-events: none;
-            letter-spacing: -0.05em;
+        @keyframes fadeInFromTop {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
         @media (max-width: 768px) {
-            .logo {
-                font-size: 3.5rem;
+            .section-layout {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
             }
-            
-            .tagline {
-                font-size: 1rem;
+            .content-section:nth-child(even) .section-image {
+                order: initial;
             }
-            
-            .description {
-                font-size: 1rem;
+            /* Mobil'de boş görsel alanını gizle */
+            .section-image {
+                display: none;
             }
-            
-            .expertise {
-                flex-direction: column;
-                align-items: center;
-                gap: 1rem;
+            .section-text h2 {
+                font-size: 2.2rem;
+            }
+            .page-container {
+                padding: 0 1.5rem;
             }
         }
+
     </style>
 </head>
 <body>
-    <div class="background-text">OBX</div>
-    
-    <div class="container">
-        <h1 class="logo">OBX</h1>
-        <p class="tagline">SOLVING THE UNSEEN</p>
-        
-        <p class="description">
-            Endüstriyel otomasyon ve üretim sistemlerinde görünmeyen problemleri tespit edip, 
-            yenilikçi çözümler üretiyoruz. Premium danışmanlık hizmetimizle fabrikaların 
-            verimliliğini maksimuma çıkarıyoruz.
-        </p>
-        
-        <div class="status">Yakında Hizmetinizde</div>
-        
-        <div class="expertise">
-            <span class="expertise-item">Endüstriyel Otomasyon</span>
-            <span class="expertise-item">PLC & SCADA Sistemleri</span>
-            <span class="expertise-item">Akıllı Üretim Çözümleri</span>
-            <span class="expertise-item">Sistem Optimizasyonu</span>
-        </div>
-        
-        <div class="contact">
-            <a href="mailto:hello@obx.com.tr">hello@obx.com.tr</a>
-            <a href="tel:+905345892204">+90 534 589 22 04</a>
-        </div>
-    </div>
-</body>
 
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="page-container">
+        <header class="hero-section">
+            <div class="logo">
+                <img src="logo.png" alt="OBX Logo">
+            </div>
+            <a href="#hakkimizda" class="scroll-down-indicator">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M7.646 12.354a.5.5 0 0 1 .708 0l5 5a.5.5 0 0 1-.708.708L8 13.207l-4.646 4.647a.5.5 0 0 1-.708-.708z"/>
+                    <path fill-rule="evenodd" d="M7.646 6.354a.5.5 0 0 1 .708 0l5 5a.5.5 0 0 1-.708.708L8 7.207 3.354 11.854a.5.5 0 1 1-.708-.708z"/>
+                </svg>
+            </a>
+        </header>
+
+        <main>
+            <div id="hakkimizda" class="content-section">
+                <div class="section-layout">
+                    <div class="section-text">
+                        <h2>Görünmeyeni Şekillendiren Mühendislik</h2>
+                        <p>OBX, endüstriyel sistemlerin yüzeyinin altındaki potansiyeli ortaya çıkarır. Bizler için verimlilik, sadece rakamlardan ibaret değil, birbiriyle kusursuz uyum içinde çalışan sayısız görünmez detayın bir armonisidir. Bu felsefeyle, operasyonel mükemmelliği yeniden tanımlıyor, tecrübemizi en ileri teknolojiyle birleştirerek sadece bugünün sorunlarını çözmekle kalmıyor, yarının fırsatlarını da bugünden tasarlıyoruz.</p>
+                        <p>Her bir projeyi, kendine özgü bir ekosistem olarak ele alır; en küçük bileşenin bile bütün üzerindeki etkisini analiz ederek, size özel, sürdürülebilir ve ölçülebilir çözümler üretiyoruz.</p>
+                    </div>
+                    <div class="section-image">
+                        <!-- Görsel kaldırıldı, div layout'u korumak için bırakıldı -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="hizmetler" class="content-section">
+                 <div class="section-layout">
+                    <div class="section-text">
+                        <h2>Mühendislik Çözümlerimiz</h2>
+                        <p>Teorinin ötesine geçerek, sahadaki gerçek ihtiyaçlarınıza odaklanan, pratik ve kalıcı çözümler üretiyoruz. Amacımız, operasyonel verimliliğinizi somut sonuçlarla artırmaktır.</p>
+                         <ul class="service-list">
+                            <li>Özelleştirilmiş Otomasyon & Mekanik Sistem Tasarımı
+                                <span>Standart çözümlerin yetersiz kaldığı durumlarda, ihtiyacınıza özel makine, sistem ve otomasyon mimarileri tasarlayıp hayata geçiriyoruz.</span>
+                            </li>
+                            <li>Yazılım & Algoritma Geliştirme
+                                <span>Sistemlerinizin verimli çalışması için gereken kontrol yazılımlarını, kullanıcı arayüzlerini ve özel algoritmaları geliştiriyor, mevcut yazılımlarınızı iyileştiriyoruz.</span>
+                            </li>
+                            <li>Mevcut Sistemlerde Sorun Giderme ve İyileştirme
+                                <span>Çalışan sistemlerinizde karşılaştığınız donanımsal, yazılımsal veya sürece dayalı sorunları analiz ediyor, kalıcı ve etkin çözümler üretiyoruz.</span>
+                            </li>
+                             <li>Teknik Eğitim ve Dokümantasyon
+                                 <span>Geliştirdiğimiz veya iyileştirdiğimiz sistemlerin ekibiniz tarafından etkin kullanımı ve bakımı için özel eğitimler veriyor, anlaşılır teknik dokümanlar hazırlıyoruz.</span>
+                             </li>
+                        </ul>
+                    </div>
+                    <div class="section-image">
+                        <!-- Görsel kaldırıldı -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="yaklasimimiz" class="content-section">
+                <div class="section-layout">
+                    <div class="section-text">
+                        <h2>Pratik ve Sonuç Odaklı Yaklaşımımız</h2>
+                        <p>Çözümlerimizi kanıtlanmış bir metodoloji ile geliştiriyoruz. Süreç boyunca sizinle yakın iş birliği içinde çalışarak projenin her adımında şeffaflığı ve hedeflere uygunluğu sağlıyoruz.</p>
+                         <ul class="service-list">
+                            <li>Aşama 1: Keşif ve Analiz
+                                <span>Sadece dinlemiyor, anlamaya odaklanıyoruz. İhtiyaçlarınızı ve mevcut durumu yerinde inceliyor, hedeflerinizi netleştirerek projenin temelini sağlam atıyoruz.</span>
+                            </li>
+                            <li>Aşama 2: Tasarım ve Geliştirme
+                                <span>Analiz sonuçlarına göre en uygun donanım ve yazılım mimarisini tasarlıyoruz. Olası riskleri en aza indirerek en verimli ve sürdürülebilir çözümü geliştiriyoruz.</span>
+                            </li>
+                            <li>Aşama 3: Uygulama ve Destek
+                                <span>Geliştirdiğimiz çözümü sistemlerinize entegre ediyor, devreye alıyoruz. Proje tamamlandıktan sonra da teknik destek ve eğitimlerle yanınızda olmaya devam ediyoruz.</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="section-image">
+                        <!-- Görsel kaldırıldı -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="yaklasimimiz" class="content-section">
+                <div class="section-layout">
+                    <div class="section-text">
+                        <h2>360 Derece Yaklaşımımız</h2>
+                        <p>Başarıyı tesadüflere bırakmıyoruz. Her projede, en iyi sonuca ulaşmak için kanıtlanmış bir metodoloji izliyoruz. Bu süreç, sizinle tam bir şeffaflık ve iş birliği içinde yürütülür.</p>
+                         <ul class="service-list">
+                            <li>Aşama 1: Derinlemesine Analiz
+                                <span>Süreçlerinizi yerinde inceliyor, veri akışlarınızı haritalandırıyor ve "görünmeyen" verimsizlik noktalarını ortaya çıkarıyoruz. Bu aşama, doğru teşhisi koymamızın temelidir.</span>
+                            </li>
+                            <li>Aşama 2: Stratejik Tasarım
+                                <span>Analiz sonuçlarına dayanarak, size özel bir yol haritası çiziyoruz. En uygun teknolojileri seçiyor, sistemin dijital ikizini oluşturuyor ve yatırım getirisini (ROI) en üst düzeye çıkaracak çözümü tasarlıyoruz.</span>
+                            </li>
+                            <li>Aşama 3: Kusursuz Entegrasyon
+                                <span>Tasarımı hayata geçirirken, mevcut operasyonlarınızı minimum düzeyde etkileyerek, donanım ve yazılım entegrasyonunu pürüzsüz bir şekilde tamamlıyoruz. Proje sonrası destek ve eğitimlerle sistemin tam potansiyelini kullanmanızı sağlıyoruz.</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="section-image">
+                        <!-- Görsel kaldırıldı -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="iletisim" class="content-section">
+                <div class="section-layout">
+                    <div class="section-text">
+                        <h2>Geleceği Birlikte Tasarlayalım</h2>
+                        <p>Eğer siz de standartların ötesine geçmek, operasyonlarınızdaki gizli potansiyeli ortaya çıkarmak ve sektörünüzde fark yaratmak istiyorsanız, tanışma zamanı gelmiş demektir. Projenizin detaylarını görüşmek ve "görünmeyeni" birlikte çözmek için bize ulaşın.</p>
+                        <ul class="service-list">
+                            <li><a href="mailto:hello@obx.com.tr" class="contact-link">E-posta: hello@obx.com.tr</a></li>
+                            <li><a href="tel:+905345892204" class="contact-link">Telefon: +90 534 589 22 04</a></li>
+                        </ul>
+                    </div>
+                    <div class="section-image">
+                        <!-- Görsel kaldırıldı -->
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>&copy; 2025 OBX Endüstriyel Otomasyon ve Danışmanlık. Tüm Hakları Saklıdır.</p>
+        </footer>
+    </div>
+
+
+    <script>
+        // --- Scroll Animasyon Script'i ---
+        const sections = document.querySelectorAll('.content-section');
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                }
+            });
+        }, {
+            threshold: 0.15 
+        });
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+
+        // --- Etkileşimli Canvas Arka Plan Script'i ---
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particlesArray;
+
+        const mouse = {
+            x: null,
+            y: null,
+            radius: (canvas.height / 100) * (canvas.width / 100)
+        }
+
+        window.addEventListener('mousemove', (event) => {
+            mouse.x = event.x;
+            mouse.y = event.y;
+        });
+
+        class Particle {
+            constructor(x, y, directionX, directionY, size) {
+                this.x = x;
+                this.y = y;
+                this.directionX = directionX;
+                this.directionY = directionY;
+                this.size = size;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--particle-color');
+                ctx.fill();
+            }
+            update() {
+                if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
+                if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
+                
+                let dx = mouse.x - this.x;
+                let dy = mouse.y - this.y;
+                let distance = Math.sqrt(dx*dx + dy*dy);
+                if (distance < mouse.radius + this.size) {
+                    if (mouse.x < this.x && this.x < canvas.width - this.size * 10) this.x += 2;
+                    if (mouse.x > this.x && this.x > this.size * 10) this.x -= 2;
+                    if (mouse.y < this.y && this.y < canvas.height - this.size * 10) this.y += 2;
+                    if (mouse.y > this.y && this.y > this.size * 10) this.y -= 2;
+                }
+
+                this.x += this.directionX;
+                this.y += this.directionY;
+                this.draw();
+            }
+        }
+
+        function init() {
+            particlesArray = [];
+            let numberOfParticles = (canvas.height * canvas.width) / 11000;
+            for (let i = 0; i < numberOfParticles; i++) {
+                let size = (Math.random() * 1.5) + 1;
+                let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+                let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+                let directionX = (Math.random() * 0.4) - 0.2;
+                let directionY = (Math.random() * 0.4) - 0.2;
+                particlesArray.push(new Particle(x, y, directionX, directionY, size));
+            }
+        }
+
+        function connect() {
+            let opacityValue = 1;
+            const lineColor = getComputedStyle(document.documentElement).getPropertyValue('--line-color').trim();
+            const baseColor = lineColor.substring(lineColor.indexOf('(') + 1, lineColor.lastIndexOf(')')).split(',');
+
+            for (let a = 0; a < particlesArray.length; a++) {
+                for (let b = a; b < particlesArray.length; b++) {
+                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) 
+                                 + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                    if (distance < (canvas.width / 8) * (canvas.height / 8)) {
+                        opacityValue = 1 - (distance / 20000);
+                        ctx.strokeStyle = `rgba(${baseColor[0]}, ${baseColor[1]}, ${baseColor[2]}, ${opacityValue})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, innerWidth, innerHeight);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+            }
+            connect();
+        }
+        
+        window.addEventListener('resize', () => {
+            canvas.width = innerWidth;
+            canvas.height = innerHeight;
+            mouse.radius = (canvas.height / 100) * (canvas.width / 100);
+            init();
+        });
+        
+        window.addEventListener('mouseout', () => {
+            mouse.x = undefined;
+            mouse.y = undefined;
+        });
+
+        init();
+        animate();
+    </script>
+</body>
 </html>
+
