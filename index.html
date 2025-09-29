@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OBX | Solving The Unseen</title>
+    <meta name="description" content="OBX Endüstriyel Otomasyon ve Danışmanlık. Görünmeyen problemleri çözen, pratik ve sonuç odaklı mühendislik çözümleri.">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Lora:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Merriweather:wght@400;700&display=swap&subset=latin-ext" rel="stylesheet">
 
     <style>
         :root {
@@ -15,22 +16,17 @@
             --dark-text: #333333;
             --accent-color: #A08A7D;
             --border-color: rgba(65, 64, 62, 0.2);
-            --particle-color: rgba(65, 64, 62, 0.5);
-            --line-color: rgba(65, 64, 62, 0.2);
+            --particle-color: rgba(96, 96, 92, 0.5);
+            --line-color: rgba(96, 96, 92, 0.2);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
+        html { scroll-behavior: smooth; }
         body {
             font-family: 'Lato', sans-serif;
-            background-color: var --light-bg;
+            background-color: var(--light-bg);
             color: var(--dark-text);
             overflow-x: hidden;
         }
-        
         #particle-canvas {
             position: fixed;
             top: 0;
@@ -39,14 +35,30 @@
             height: 100%;
             z-index: -1;
         }
-
+        .lang-switcher {
+            position: fixed;
+            top: 20px;
+            right: 30px;
+            z-index: 1000;
+        }
+        .lang-switcher a {
+            color: var(--dark-text);
+            text-decoration: none;
+            margin: 0 8px;
+            font-weight: 700;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+        .lang-switcher a:hover,
+        .lang-switcher a.active {
+            opacity: 1;
+        }
         .page-container {
             width: 100%;
             max-width: 1100px;
             margin: 0 auto;
             padding: 0 2rem;
         }
-
         .hero-section {
             height: 100vh;
             display: flex;
@@ -56,13 +68,30 @@
             text-align: center;
             animation: fadeInFromTop 1s ease-out;
         }
-
         .hero-section .logo img {
             width: 100%;
             max-width: 320px;
             margin-bottom: 2rem;
         }
-
+        .hero-contact {
+            position: absolute;
+            bottom: 110px;
+            display: flex;
+            gap: 2rem;
+        }
+        .hero-contact a {
+            color: var(--dark-text);
+            opacity: 0.7;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .hero-contact a:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        .hero-contact svg {
+            width: 28px;
+            height: 28px;
+        }
         .scroll-down-indicator {
             position: absolute;
             bottom: 30px;
@@ -71,34 +100,29 @@
             cursor: pointer;
             color: var(--dark-text);
         }
-
         .scroll-down-indicator svg {
             width: 60px;
             height: 60px;
         }
-
         .content-section {
             padding: 6rem 0;
             opacity: 0;
             transform: translateY(40px);
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
-
         .content-section.in-view {
             opacity: 1;
             transform: translateY(0);
         }
-
         .section-layout {
             max-width: 780px;
             margin: 0 auto;
         }
-
         .section-text h2 {
-            font-family: 'Lora', serif;
-            font-size: 2.5rem;
+            font-family: 'Merriweather', serif;
+            font-size: 2.4rem;
             margin-bottom: 1.5rem;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--dark-text);
             line-height: 1.2;
         }
@@ -107,11 +131,6 @@
             opacity: 0.9;
             margin-bottom: 1.5rem;
         }
-
-        .section-image {
-           display: none;
-        }
-
         .service-list {
             list-style: none;
             margin-top: 2rem;
@@ -120,32 +139,33 @@
         .service-list li {
             padding: 1.2rem 0;
             border-bottom: 1px solid var(--border-color);
-            font-weight: 700;
             display: flex;
             align-items: flex-start;
             transition: background-color 0.3s ease;
             border-radius: 5px;
-            padding-left: 10px;
-            margin-left: -10px;
         }
         .service-list li:hover {
             background-color: rgba(65, 64, 62, 0.05);
         }
-         .service-list li::before {
+        .service-list li::before {
             content: '›';
             font-size: 1.5rem;
             margin-right: 1rem;
             color: var(--accent-color);
-            line-height: 1;
+            line-height: 1.1;
+            flex-shrink: 0;
         }
-        .service-list span {
+        .service-list-item strong {
+            font-family: 'Merriweather', serif;
+            font-weight: 700;
+            display: block;
+        }
+        .service-list-item span {
             font-weight: 400;
             display: block;
             margin-top: 0.35rem;
             opacity: 0.8;
-            padding-left: 2.1rem;
         }
-        
         .contact-link {
             color: var(--dark-text);
             text-decoration: none;
@@ -155,167 +175,74 @@
         .contact-link:hover {
             color: var(--accent-color);
         }
-
         footer {
             text-align: center;
-            padding: 2rem 0;
+            padding: 3rem 0 2rem 0;
             border-top: 1px solid var(--border-color);
             margin-top: 4rem;
+        }
+        .footer-socials {
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+        .footer-socials a {
+            color: var(--dark-text);
+            opacity: 0.6;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .footer-socials a:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        .footer-socials svg {
+            width: 26px;
+            height: 26px;
+        }
+        footer p {
             font-size: 0.9rem;
             opacity: 0.7;
         }
-
-        /* --- Gemini AI Feature Styles --- */
-        .gemini-feature {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .gemini-feature textarea {
-            width: 100%;
-            height: 150px;
-            background-color: rgba(255, 255, 255, 0.5);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1rem;
-            font-family: 'Lato', sans-serif;
-            font-size: 1rem;
-            resize: vertical;
-            margin-bottom: 1rem;
-        }
-
-        .gemini-feature button {
-            background-color: var(--accent-color);
-            color: var(--light-bg);
-            border: none;
-            border-radius: 8px;
-            padding: 0.8rem 1.5rem;
-            font-family: 'Lora', serif;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-        }
-        .gemini-feature button:hover {
-            background-color: #8a7567;
-            transform: translateY(-2px);
-        }
-        .gemini-feature button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-        .modal-overlay.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-content {
-            background: var(--light-bg);
-            padding: 2.5rem;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 680px;
-            max-height: 80vh;
-            overflow-y: auto;
-            position: relative;
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
-        }
-        .modal-overlay.show .modal-content {
-             transform: scale(1);
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: none;
-            border: none;
-            font-size: 1.8rem;
-            cursor: pointer;
-            color: var(--dark-text);
-            opacity: 0.6;
-            transition: opacity 0.3s;
-        }
-        .modal-close:hover {
-            opacity: 1;
-        }
-
-        .modal-body h3 {
-            font-family: 'Lora', serif;
-            margin-top: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-        .modal-body p, .modal-body li {
-            line-height: 1.7;
-        }
-        .modal-body ul {
-            padding-left: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid var(--accent-color);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 2rem auto;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
         @keyframes fadeInFromTop {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
         @keyframes bounce {
             0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
             40% {transform: translateY(-10px);}
             60% {transform: translateY(-5px);}
         }
-
         @media (max-width: 768px) {
-            .section-text h2 {
-                font-size: 2.2rem;
-            }
-            .page-container {
-                padding: 0 1.5rem;
-            }
+            .section-text h2 { font-size: 2.2rem; }
+            .page-container { padding: 0 1.5rem; }
+            .lang-switcher { top: 15px; right: 15px; }
+            .hero-contact { bottom: 100px; }
         }
-
     </style>
 </head>
 <body>
 
     <canvas id="particle-canvas"></canvas>
 
+    <div class="lang-switcher">
+        <a href="#" class="lang-link active" data-lang="tr">TR</a>
+        <a href="#" class="lang-link" data-lang="en">EN</a>
+        <a href="#" class="lang-link" data-lang="de">DE</a>
+    </div>
+
     <div class="page-container">
         <header class="hero-section">
             <div class="logo">
                 <img src="logo.png" alt="OBX Logo">
+            </div>
+            <div class="hero-contact">
+                <a href="mailto:hello@obx.com.tr" title="E-posta Gönder">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                </a>
+                <a href="tel:+905345892204" title="Telefon Et">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                </a>
             </div>
             <a href="#hakkimizda" class="scroll-down-indicator">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
@@ -329,9 +256,9 @@
             <div id="hakkimizda" class="content-section">
                 <div class="section-layout">
                     <div class="section-text">
-                        <h2>Görünmeyeni Şekillendiren Mühendislik</h2>
-                        <p>OBX, endüstriyel sistemlerin yüzeyinin altındaki potansiyeli ortaya çıkarır. Bizler için verimlilik, sadece rakamlardan ibaret değil, birbiriyle kusursuz uyum içinde çalışan sayısız görünmez detayın bir armonisidir. Bu felsefeyle, operasyonel mükemmelliği yeniden tanımlıyor, tecrübemizi en ileri teknolojiyle birleştirerek sadece bugünün sorunlarını çözmekle kalmıyor, yarının fırsatlarını da bugünden tasarlıyoruz.</p>
-                        <p>Her bir projeyi, kendine özgü bir ekosistem olarak ele alır; en küçük bileşenin bile bütün üzerindeki etkisini analiz ederek, size özel, sürdürülebilir ve ölçülebilir çözümler üretiyoruz.</p>
+                        <h2 data-lang-key="about_title">Görünmeyeni Şekillendiren Mühendislik</h2>
+                        <p data-lang-key="about_p1">OBX, endüstriyel sistemlerin yüzeyinin altındaki potansiyeli ortaya çıkarır. Bizler için verimlilik, sadece rakamlardan ibaret değil, birbiriyle kusursuz uyum içinde çalışan sayısız görünmez detayın bir armonisidir. Bu felsefeyle, operasyonel mükemmelliği yeniden tanımlıyor, tecrübemizi en ileri teknolojiyle birleştirerek sadece bugünün sorunlarını çözmekle kalmıyor, yarının fırsatlarını da bugünden tasarlıyoruz.</p>
+                        <p data-lang-key="about_p2">Her bir projeyi, kendine özgü bir ekosistem olarak ele alır; en küçük bileşenin bile bütün üzerindeki etkisini analiz ederek, size özel, sürdürülebilir ve ölçülebilir çözümler üretiyoruz.</p>
                     </div>
                 </div>
             </div>
@@ -339,21 +266,25 @@
             <div id="hizmetler" class="content-section">
                  <div class="section-layout">
                     <div class="section-text">
-                        <h2>Mühendislik Çözümlerimiz</h2>
-                        <p>Teorinin ötesine geçerek, sahadaki gerçek ihtiyaçlarınıza odaklanan, pratik ve kalıcı çözümler üretiyoruz. Amacımız, operasyonel verimliliğinizi somut sonuçlarla artırmaktır.</p>
+                        <h2 data-lang-key="services_title">Mühendislik Çözümlerimiz</h2>
+                        <p data-lang-key="services_p1">Teorinin ötesine geçerek, sahadaki gerçek ihtiyaçlarınıza odaklanan, pratik ve kalıcı çözümler üretiyoruz. Amacımız, operasyonel verimliliğinizi somut sonuçlarla artırmaktır.</p>
                          <ul class="service-list">
-                            <li>Özelleştirilmiş Otomasyon & Mekanik Sistem Tasarımı
-                                <span>Standart çözümlerin yetersiz kaldığı durumlarda, ihtiyacınıza özel makine, sistem ve otomasyon mimarileri tasarlayıp hayata geçiriyoruz.</span>
-                            </li>
-                            <li>Yazılım & Algoritma Geliştirme
-                                <span>Sistemlerinizin verimli çalışması için gereken kontrol yazılımlarını, kullanıcı arayüzlerini ve özel algoritmaları geliştiriyor, mevcut yazılımlarınızı iyileştiriyoruz.</span>
-                            </li>
-                            <li>Mevcut Sistemlerde Sorun Giderme ve İyileştirme
-                                <span>Çalışan sistemlerinizde karşılaştığınız donanımsal, yazılımsal veya sürece dayalı sorunları analiz ediyor, kalıcı ve etkin çözümler üretiyoruz.</span>
-                            </li>
-                             <li>Teknik Eğitim ve Dokümantasyon
-                                 <span>Geliştirdiğimiz veya iyileştirdiğimiz sistemlerin ekibiniz tarafından etkin kullanımı ve bakımı için özel eğitimler veriyor, anlaşılır teknik dokümanlar hazırlıyoruz.</span>
-                             </li>
+                            <li><div class="service-list-item">
+                                <strong data-lang-key="service_1_title">Özelleştirilmiş Otomasyon & Mekanik Sistem Tasarımı</strong>
+                                <span data-lang-key="service_1_desc">Standart çözümlerin yetersiz kaldığı durumlarda, ihtiyacınıza özel makine, sistem ve otomasyon mimarileri tasarlayıp hayata geçiriyoruz.</span>
+                            </div></li>
+                            <li><div class="service-list-item">
+                                <strong data-lang-key="service_2_title">Yazılım & Algoritma Geliştirme</strong>
+                                <span data-lang-key="service_2_desc">Sistemlerinizin verimli çalışması için gereken kontrol yazılımlarını, kullanıcı arayüzlerini ve özel algoritmaları geliştiriyor, mevcut yazılımlarınızı iyileştiriyoruz.</span>
+                            </div></li>
+                            <li><div class="service-list-item">
+                                <strong data-lang-key="service_3_title">Mevcut Sistemlerde Sorun Giderme ve İyileştirme</strong>
+                                <span data-lang-key="service_3_desc">Çalışan sistemlerinizde karşılaştığınız donanımsal, yazılımsal veya sürece dayalı sorunları analiz ediyor, kalıcı ve etkin çözümler üretiyoruz.</span>
+                            </div></li>
+                             <li><div class="service-list-item">
+                                <strong data-lang-key="service_4_title">Teknik Eğitim ve Dokümantasyon</strong>
+                                 <span data-lang-key="service_4_desc">Geliştirdiğimiz veya iyileştirdiğimiz sistemlerin ekibiniz tarafından etkin kullanımı ve bakımı için özel eğitimler veriyor, anlaşılır teknik dokümanlar hazırlıyoruz.</span>
+                             </div></li>
                         </ul>
                     </div>
                 </div>
@@ -362,18 +293,21 @@
             <div id="yaklasimimiz" class="content-section">
                 <div class="section-layout">
                     <div class="section-text">
-                        <h2>Pratik ve Sonuç Odaklı Yaklaşımımız</h2>
-                        <p>Çözümlerimizi kanıtlanmış bir metodoloji ile geliştiriyoruz. Süreç boyunca sizinle yakın iş birliği içinde çalışarak projenin her adımında şeffaflığı ve hedeflere uygunluğu sağlıyoruz.</p>
+                        <h2 data-lang-key="approach_title">Pratik ve Sonuç Odaklı Yaklaşımımız</h2>
+                        <p data-lang-key="approach_p1">Çözümlerimizi kanıtlanmış bir metodoloji ile geliştiriyoruz. Süreç boyunca sizinle yakın iş birliği içinde çalışarak projenin her adımında şeffaflığı ve hedeflere uygunluğu sağlıyoruz.</p>
                          <ul class="service-list">
-                            <li>Aşama 1: Keşif ve Analiz
-                                <span>Sadece dinlemiyor, anlamaya odaklanıyoruz. İhtiyaçlarınızı ve mevcut durumu yerinde inceliyor, hedeflerinizi netleştirerek projenin temelini sağlam atıyoruz.</span>
-                            </li>
-                            <li>Aşama 2: Tasarım ve Geliştirme
-                                <span>Analiz sonuçlarına göre en uygun donanım ve yazılım mimarisini tasarlıyoruz. Olası riskleri en aza indirerek en verimli ve sürdürülebilir çözümü geliştiriyoruz.</span>
-                            </li>
-                            <li>Aşama 3: Uygulama ve Destek
-                                <span>Geliştirdiğimiz çözümü sistemlerinize entegre ediyor, devreye alıyoruz. Proje tamamlandıktan sonra da teknik destek ve eğitimlerle yanınızda olmaya devam ediyoruz.</span>
-                            </li>
+                            <li><div class="service-list-item">
+                                <strong data-lang-key="approach_1_title">Aşama 1: Keşif ve Analiz</strong>
+                                <span data-lang-key="approach_1_desc">Sadece dinlemiyor, anlamaya odaklanıyoruz. İhtiyaçlarınızı ve mevcut durumu yerinde inceliyor, hedeflerinizi netleştirerek projenin temelini sağlam atıyoruz.</span>
+                            </div></li>
+                            <li><div class="service-list-item">
+                                <strong data-lang-key="approach_2_title">Aşama 2: Tasarım ve Geliştirme</strong>
+                                <span data-lang-key="approach_2_desc">Analiz sonuçlarına göre en uygun donanım ve yazılım mimarisini tasarlıyoruz. Olası riskleri en aza indirerek en verimli ve sürdürülebilir çözümü geliştiriyoruz.</span>
+                            </div></li>
+                            <li><div class="service-list-item">
+                                <strong data-lang-key="approach_3_title">Aşama 3: Uygulama ve Destek</strong>
+                                <span data-lang-key="approach_3_desc">Geliştirdiğimiz çözümü sistemlerinize entegre ediyor, devreye alıyoruz. Proje tamamlandıktan sonra da teknik destek ve eğitimlerle yanınızda olmaya devam ediyoruz.</span>
+                            </div></li>
                         </ul>
                     </div>
                 </div>
@@ -382,42 +316,35 @@
             <div id="iletisim" class="content-section">
                 <div class="section-layout">
                     <div class="section-text">
-                        <h2>Geleceği Birlikte Tasarlayalım</h2>
-                        <p>Eğer siz de standartların ötesine geçmek, operasyonlarınızdaki gizli potansiyeli ortaya çıkarmak ve sektörünüzde fark yaratmak istiyorsanız, tanışma zamanı gelmiş demektir. Projenizin detaylarını görüşmek ve "görünmeyeni" birlikte çözmek için bize ulaşın.</p>
+                        <h2 data-lang-key="contact_title">Geleceği Birlikte Tasarlayalım</h2>
+                        <p data-lang-key="contact_p1">Eğer siz de standartların ötesine geçmek, operasyonlarınızdaki gizli potansiyeli ortaya çıkarmak ve sektörünüzde fark yaratmak istiyorsanız, tanışma zamanı gelmiş demektir. Projenizin detaylarını görüşmek ve "görünmeyeni" birlikte çözmek için bize ulaşın.</p>
                         <ul class="service-list">
-                            <li><a href="mailto:hello@obx.com.tr" class="contact-link">E-posta: hello@obx.com.tr</a></li>
-                            <li><a href="tel:+905345892204" class="contact-link">Telefon: +90 534 589 22 04</a></li>
+                            <li><a href="mailto:hello@obx.com.tr" class="contact-link" data-lang-key="contact_email">E-posta: hello@obx.com.tr</a></li>
+                            <li><a href="tel:+905345892204" class="contact-link" data-lang-key="contact_phone">Telefon: +90 534 589 22 04</a></li>
+                            <li><a href="https://www.linkedin.com/company/obxtr" target="_blank" class="contact-link" data-lang-key="contact_linkedin">LinkedIn: linkedin.com/company/obxtr</a></li>
                         </ul>
-
-                        <div class="gemini-feature">
-                            <h2>✨ Projenizi Yapay Zeka ile Ön Analiz Edin</h2>
-                            <p>Aşağıdaki alana projenizi veya karşılaştığınız teknik zorluğu kısaca anlatın. Yapay zeka destekli sistemimiz, size özel bir ön analiz ve yol haritası sunsun.</p>
-                            <textarea id="project-description" placeholder="Örnek: 'Plastik enjeksiyon makinemizde sürekli kalıp değiştirme süresi verimliliği düşürüyor. Bu süreci otomatikleştirmek için bir robotik kol entegrasyonu düşünüyoruz ama nereden başlayacağımızı bilmiyoruz...'"></textarea>
-                            <button id="analyze-button">Analiz Et</button>
-                        </div>
                     </div>
                 </div>
             </div>
         </main>
         
         <footer>
-            <p>&copy; 2025 OBX Endüstriyel Otomasyon ve Danışmanlık. Tüm Hakları Saklıdır.</p>
+            <div class="footer-socials">
+                <a href="mailto:hello@obx.com.tr" title="E-posta Gönder">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                </a>
+                <a href="tel:+905345892204" title="Telefon Et">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                </a>
+                <a href="https://www.linkedin.com/company/obxtr" target="_blank" title="LinkedIn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                </a>
+            </div>
+            <p data-lang-key="footer_text">&copy; 2025 OBX Endüstriyel Otomasyon ve Danışmanlık. Tüm Hakları Saklıdır.</p>
         </footer>
     </div>
-    
-    <!-- Modal for Gemini Response -->
-    <div id="gemini-modal" class="modal-overlay">
-        <div class="modal-content">
-            <button id="modal-close-btn" class="modal-close">&times;</button>
-            <div id="modal-body" class="modal-body">
-                <!-- Gemini response will be inserted here -->
-            </div>
-        </div>
-    </div>
-
 
     <script>
-        // --- Scroll Animasyon Script'i ---
         const sections = document.querySelectorAll('.content-section');
         const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
@@ -428,7 +355,6 @@
         }, { threshold: 0.15 });
         sections.forEach(section => observer.observe(section));
 
-        // --- Etkileşimli Canvas Arka Plan Script'i ---
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
@@ -443,7 +369,7 @@
                 if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
                 if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
                 let dx = mouse.x - this.x; let dy = mouse.y - this.y; let distance = Math.sqrt(dx * dx + dy * dy);
-                if (distance < mouse.radius + this.size) {
+                if (mouse.x && distance < mouse.radius + this.size) {
                     if (mouse.x < this.x && this.x < canvas.width - this.size * 10) this.x += 2;
                     if (mouse.x > this.x && this.x > this.size * 10) this.x -= 2;
                     if (mouse.y < this.y && this.y < canvas.height - this.size * 10) this.y += 2;
@@ -476,97 +402,126 @@
         window.addEventListener('mouseout', () => { mouse.x = undefined; mouse.y = undefined; });
         init(); animate();
 
-        // --- Gemini AI Feature Script ---
-        const analyzeButton = document.getElementById('analyze-button');
-        const projectDescription = document.getElementById('project-description');
-        const modal = document.getElementById('gemini-modal');
-        const modalBody = document.getElementById('modal-body');
-        const closeModalBtn = document.getElementById('modal-close-btn');
-
-        const apiKey = ""; // API Key will be injected by the environment
-
-        async function callGemini(prompt) {
-            analyzeButton.disabled = true;
-            modalBody.innerHTML = '<div class="loader"></div>';
-            modal.classList.add('show');
-            
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-
-            const systemPrompt = "You are a senior engineering consultant at OBX, an industrial automation firm specializing in solving complex, 'unseen' problems. Your expertise lies in custom automation, software development, system troubleshooting, and technical training. Your communication style is professional, insightful, and client-focused.";
-
-            const userQuery = `
-                A potential client has provided the following description of their project or problem. Please provide a concise preliminary analysis in Turkish. Your analysis must have three distinct sections formatted with markdown:
-
-                ### 1. Temel Zorluklar
-                Based on the description, identify 2-3 primary challenges or pain points the client is facing.
-
-                ### 2. Önerilen OBX Çözümleri
-                Briefly explain which of our core services (Özelleştirilmiş Otomasyon & Mekanik Sistem Tasarımı, Yazılım & Algoritma Geliştirme, Mevcut Sistemlerde Sorun Giderme ve İyileştirme, Teknik Eğitim ve Dokümantasyon) would be most effective in addressing these challenges.
-
-                ### 3. Sonraki Adımlar İçin Sorular
-                Formulate 3 probing questions that we can ask the client in a follow-up meeting to better understand their needs and the project scope.
-
-                Client's description:
-                ---
-                ${prompt}
-                ---
-            `;
-            
-            const payload = {
-                contents: [{ parts: [{ text: userQuery }] }],
-                systemInstruction: { parts: [{ text: systemPrompt }] },
-            };
-
-            try {
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const result = await response.json();
-                const candidate = result.candidates?.[0];
-
-                if (candidate && candidate.content?.parts?.[0]?.text) {
-                    let text = candidate.content.parts[0].text;
-                    // Simple Markdown to HTML conversion
-                    text = text.replace(/### (.*?)\n/g, '<h3>$1</h3>');
-                    text = text.replace(/\* (.*?)\n/g, '<li>$1</li>');
-                    text = text.replace(/(\d)\. (.*?)\n/g, '<li>$2</li>');
-                    text = text.replace(/\n/g, '<br>');
-                    modalBody.innerHTML = `<h2>Ön Analiz Raporu</h2>${text}`;
-                } else {
-                    throw new Error("Invalid response structure from API.");
-                }
-
-            } catch (error) {
-                console.error("Error calling Gemini API:", error);
-                modalBody.innerHTML = '<h3>Bir Hata Oluştu</h3><p>Analiz sırasında bir sorunla karşılaşıldı. Lütfen daha sonra tekrar deneyin veya doğrudan bizimle iletişime geçin.</p>';
-            } finally {
-                analyzeButton.disabled = false;
+        const translations = {
+            tr: {
+                about_title: "Görünmeyeni Şekillendiren Mühendislik",
+                about_p1: "OBX, endüstriyel sistemlerin yüzeyinin altındaki potansiyeli ortaya çıkarır. Bizler için verimlilik, sadece rakamlardan ibaret değil, birbiriyle kusursuz uyum içinde çalışan sayısız görünmez detayın bir armonisidir. Bu felsefeyle, operasyonel mükemmelliği yeniden tanımlıyor, tecrübemizi en ileri teknolojiyle birleştirerek sadece bugünün sorunlarını çözmekle kalmıyor, yarının fırsatlarını da bugünden tasarlıyoruz.",
+                about_p2: "Her bir projeyi, kendine özgü bir ekosistem olarak ele alır; en küçük bileşenin bile bütün üzerindeki etkisini analiz ederek, size özel, sürdürülebilir ve ölçülebilir çözümler üretiyoruz.",
+                services_title: "Mühendislik Çözümlerimiz",
+                services_p1: "Teorinin ötesine geçerek, sahadaki gerçek ihtiyaçlarınıza odaklanan, pratik ve kalıcı çözümler üretiyoruz. Amacımız, operasyonel verimliliğinizi somut sonuçlarla artırmaktır.",
+                service_1_title: "Özelleştirilmiş Otomasyon & Mekanik Sistem Tasarımı",
+                service_1_desc: "Standart çözümlerin yetersiz kaldığı durumlarda, ihtiyacınıza özel makine, sistem ve otomasyon mimarileri tasarlayıp hayata geçiriyoruz.",
+                service_2_title: "Yazılım & Algoritma Geliştirme",
+                service_2_desc: "Sistemlerinizin verimli çalışması için gereken kontrol yazılımlarını, kullanıcı arayüzlerini ve özel algoritmaları geliştiriyor, mevcut yazılımlarınızı iyileştiriyoruz.",
+                service_3_title: "Mevcut Sistemlerde Sorun Giderme ve İyileştirme",
+                service_3_desc: "Çalışan sistemlerinizde karşılaştığınız donanımsal, yazılımsal veya sürece dayalı sorunları analiz ediyor, kalıcı ve etkin çözümler üretiyoruz.",
+                service_4_title: "Teknik Eğitim ve Dokümantasyon",
+                service_4_desc: "Geliştirdiğimiz veya iyileştirdiğimiz sistemlerin ekibiniz tarafından etkin kullanımı ve bakımı için özel eğitimler veriyor, anlaşılır teknik dokümanlar hazırlıyoruz.",
+                approach_title: "Pratik ve Sonuç Odaklı Yaklaşımımız",
+                approach_p1: "Çözümlerimizi kanıtlanmış bir metodoloji ile geliştiriyoruz. Süreç boyunca sizinle yakın iş birliği içinde çalışarak projenin her adımında şeffaflığı ve hedeflere uygunluğu sağlıyoruz.",
+                approach_1_title: "Aşama 1: Keşif ve Analiz",
+                approach_1_desc: "Sadece dinlemiyor, anlamaya odaklanıyoruz. İhtiyaçlarınızı ve mevcut durumu yerinde inceliyor, hedeflerinizi netleştirerek projenin temelini sağlam atıyoruz.",
+                approach_2_title: "Aşama 2: Tasarım ve Geliştirme",
+                approach_2_desc: "Analiz sonuçlarına göre en uygun donanım ve yazılım mimarisini tasarlıyoruz. Olası riskleri en aza indirerek en verimli ve sürdürülebilir çözümü geliştiriyoruz.",
+                approach_3_title: "Aşama 3: Uygulama ve Destek",
+                approach_3_desc: "Geliştirdiğimiz çözümü sistemlerinize entegre ediyor, devreye alıyoruz. Proje tamamlandıktan sonra da teknik destek ve eğitimlerle yanınızda olmaya devam ediyoruz.",
+                contact_title: "Geleceği Birlikte Tasarlayalım",
+                contact_p1: "Eğer siz de standartların ötesine geçmek, operasyonlarınızdaki gizli potansiyeli ortaya çıkarmak ve sektörünüzde fark yaratmak istiyorsanız, tanışma zamanı gelmiş demektir. Projenizin detaylarını görüşmek ve \"görünmeyeni\" birlikte çözmek için bize ulaşın.",
+                contact_email: "E-posta: hello@obx.com.tr",
+                contact_phone: "Telefon: +90 534 589 22 04",
+                contact_linkedin: "LinkedIn: linkedin.com/company/obxtr",
+                footer_text: "© 2025 OBX Endüstriyel Otomasyon ve Danışmanlık. Tüm Hakları Saklıdır."
+            },
+            en: {
+                about_title: "Engineering That Shapes The Unseen",
+                about_p1: "OBX uncovers the potential beneath the surface of industrial systems. For us, efficiency is not just about numbers, but a harmony of countless unseen details working in perfect unison. With this philosophy, we redefine operational excellence, combining our experience with the latest technology not only to solve today's problems but also to design tomorrow's opportunities.",
+                about_p2: "We treat each project as a unique ecosystem, analyzing the impact of even the smallest component on the whole to produce tailored, sustainable, and measurable solutions for you.",
+                services_title: "Our Engineering Solutions",
+                services_p1: "Going beyond theory, we focus on your real-world needs in the field, producing practical and lasting solutions. Our goal is to enhance your operational efficiency with tangible results.",
+                service_1_title: "Custom Automation & Mechanical System Design",
+                service_1_desc: "Where standard solutions fall short, we design and implement custom machinery, systems, and automation architectures tailored to your specific needs.",
+                service_2_title: "Software & Algorithm Development",
+                service_2_desc: "We develop the necessary control software, user interfaces, and custom algorithms for your systems to operate efficiently, and we improve your existing software.",
+                service_3_title: "Troubleshooting and Improvement of Existing Systems",
+                service_3_desc: "We analyze hardware, software, or process-related issues in your running systems and produce permanent and effective solutions.",
+                service_4_title: "Technical Training and Documentation",
+                service_4_desc: "We provide special training and prepare clear technical documents for the effective use and maintenance of the systems we develop or improve by your team.",
+                approach_title: "Our Practical and Result-Oriented Approach",
+                approach_p1: "We develop our solutions with a proven methodology. By working closely with you throughout the process, we ensure transparency and alignment with goals at every step of the project.",
+                approach_1_title: "Phase 1: Discovery and Analysis",
+                approach_1_desc: "We don't just listen; we focus on understanding. We examine your needs and current situation on-site, clarifying your goals to build a solid foundation for the project.",
+                approach_2_title: "Phase 2: Design and Development",
+                approach_2_desc: "Based on the analysis results, we design the most suitable hardware and software architecture. We develop the most efficient and sustainable solution by minimizing potential risks.",
+                approach_3_title: "Phase 3: Implementation and Support",
+                approach_3_desc: "We integrate the solution we developed into your systems and deploy it. After the project is completed, we continue to be by your side with technical support and training.",
+                contact_title: "Let's Design the Future Together",
+                contact_p1: "If you want to go beyond the standards, uncover the hidden potential in your operations, and make a difference in your industry, it's time to meet. Contact us to discuss the details of your project and to solve the 'unseen' together.",
+                contact_email: "Email: hello@obx.com.tr",
+                contact_phone: "Phone: +90 534 589 22 04",
+                contact_linkedin: "LinkedIn: linkedin.com/company/obxtr",
+                footer_text: "© 2025 OBX Industrial Automation and Consultancy. All Rights Reserved."
+            },
+            de: {
+                about_title: "Ingenieurkunst, die das Unsichtbare formt",
+                about_p1: "OBX deckt das Potenzial unter der Oberfläche industrieller Systeme auf. Für uns ist Effizienz nicht nur eine Frage von Zahlen, sondern eine Harmonie unzähliger unsichtbarer Details, die in perfekter Einheit zusammenwirken. Mit dieser Philosophie definieren wir operative Exzellenz neu, indem wir unsere Erfahrung mit der neuesten Technologie kombinieren, um nicht nur die Probleme von heute zu lösen, sondern auch die Chancen von morgen zu gestalten.",
+                about_p2: "Wir behandeln jedes Projekt als ein einzigartiges Ökosystem und analysieren die Auswirkungen selbst der kleinsten Komponente auf das Ganze, um maßgeschneiderte, nachhaltige und messbare Lösungen für Sie zu entwickeln.",
+                services_title: "Unsere Ingenieurlösungen",
+                services_p1: "Über die Theorie hinaus konzentrieren wir uns auf Ihre realen Bedürfnisse vor Ort und entwickeln praktische und dauerhafte Lösungen. Unser Ziel ist es, Ihre betriebliche Effizienz durch greifbare Ergebnisse zu steigern.",
+                service_1_title: "Kundenspezifisches Automatisierungs- & Mechaniksystemdesign",
+                service_1_desc: "Wo Standardlösungen nicht ausreichen, entwerfen und implementieren wir kundenspezifische Maschinen, Systeme und Automatisierungsarchitekturen, die auf Ihre speziellen Bedürfnisse zugeschnitten sind.",
+                service_2_title: "Software- & Algorithmenentwicklung",
+                service_2_desc: "Wir entwickeln die notwendige Steuerungssoftware, Benutzeroberflächen und benutzerdefinierte Algorithmen für den effizienten Betrieb Ihrer Systeme und verbessern Ihre bestehende Software.",
+                service_3_title: "Fehlerbehebung und Verbesserung bestehender Systeme",
+                service_3_desc: "Wir analysieren Hardware-, Software- oder prozessbezogene Probleme in Ihren laufenden Systemen und erarbeiten permanente und effektive Lösungen.",
+                service_4_title: "Technische Schulung und Dokumentation",
+                service_4_desc: "Wir bieten spezielle Schulungen und erstellen klare technische Dokumente für die effektive Nutzung und Wartung der von uns entwickelten oder verbesserten Systeme durch Ihr Team.",
+                approach_title: "Unser praktischer und ergebnisorientierter Ansatz",
+                approach_p1: "Wir entwickeln unsere Lösungen mit einer bewährten Methodik. Durch die enge Zusammenarbeit mit Ihnen während des gesamten Prozesses gewährleisten wir Transparenz und Zielkonformität bei jedem Projektschritt.",
+                approach_1_title: "Phase 1: Erkundung und Analyse",
+                approach_1_desc: "Wir hören nicht nur zu, wir konzentrieren uns auf das Verstehen. Wir untersuchen Ihre Bedürfnisse und die aktuelle Situation vor Ort und klären Ihre Ziele, um eine solide Grundlage für das Projekt zu schaffen.",
+                approach_2_title: "Phase 2: Design und Entwicklung",
+                approach_2_desc: "Basierend auf den Analyseergebnissen entwerfen wir die am besten geeignete Hardware- und Softwarearchitektur. Wir entwickeln die effizienteste und nachhaltigste Lösung, indem wir potenzielle Risiken minimieren.",
+                approach_3_title: "Phase 3: Implementierung und Support",
+                approach_3_desc: "Wir integrieren die von uns entwickelte Lösung in Ihre Systeme und nehmen sie in Betrieb. Auch nach Projektabschluss stehen wir Ihnen mit technischem Support und Schulungen zur Seite.",
+                contact_title: "Gestalten wir die Zukunft gemeinsam",
+                contact_p1: "Wenn Sie über Standards hinausgehen, das verborgene Potenzial in Ihren Abläufen aufdecken und in Ihrer Branche einen Unterschied machen wollen, ist es Zeit, sich zu treffen. Kontaktieren Sie uns, um die Details Ihres Projekts zu besprechen und gemeinsam das 'Unsichtbare' zu lösen.",
+                contact_email: "E-Mail: hello@obx.com.tr",
+                contact_phone: "Telefon: +90 534 589 22 04",
+                contact_linkedin: "LinkedIn: linkedin.com/company/obxtr",
+                footer_text: "© 2025 OBX Industrieautomation und Beratung. Alle Rechte vorbehalten."
             }
+        };
+
+        const langLinks = document.querySelectorAll('.lang-link');
+        const translatableElements = document.querySelectorAll('[data-lang-key]');
+
+        function setLanguage(lang) {
+            translatableElements.forEach(el => {
+                const key = el.dataset.langKey;
+                if (translations[lang] && translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+            langLinks.forEach(link => {
+                link.classList.toggle('active', link.dataset.lang === lang);
+            });
+            document.documentElement.lang = lang;
+            localStorage.setItem('obx-lang', lang);
         }
 
-        analyzeButton.addEventListener('click', () => {
-            const promptText = projectDescription.value;
-            if (promptText.trim().length > 10) {
-                callGemini(promptText);
-            } else {
-                alert("Lütfen projenizi veya probleminizi en az 10 karakterle açıklayın.");
-            }
+        langLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const selectedLang = link.dataset.lang;
+                setLanguage(selectedLang);
+            });
         });
 
-        const closeModal = () => modal.classList.remove('show');
-        closeModalBtn.addEventListener('click', closeModal);
-        modal.addEventListener('click', (event) => {
-            if (event.target === modal) {
-                closeModal();
-            }
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('obx-lang') || 'tr';
+            setLanguage(savedLang);
         });
+
     </script>
 </body>
 </html>
