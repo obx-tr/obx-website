@@ -15,7 +15,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@400;600;700&display=swap" rel="stylesheet">
     
     <meta property="og:title" content="OBX | Solving The Unseen">
     <meta property="og:description" content="Endüstriyel otomasyon ve danışmanlık. AS/RS, Shuttle sistemleri ve WMS entegrasyonu uzmanı.">
@@ -73,7 +73,6 @@
             z-index: -1;
         }
         
-        /* Header */
         .top-bar {
             position: fixed;
             top: 0;
@@ -82,8 +81,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 25px 40px;
+            padding: 15px 40px;
             z-index: 1000;
+            background: rgba(232, 230, 218, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(65, 64, 62, 0.05);
         }
         .lang-switcher a {
             color: var(--dark-text);
@@ -104,7 +107,6 @@
         .top-contact a:hover { opacity: 1; transform: scale(1.1); }
         .top-contact svg { width: 24px; height: 24px; }
 
-        /* Hero */
         .hero-section {
             height: 100vh;
             display: flex;
@@ -122,14 +124,17 @@
             filter: drop-shadow(0 10px 20px rgba(0,0,0,0.05));
         }
         .hero-tagline {
-            font-size: 1.15rem;
-            opacity: 0.75;
-            font-weight: 300;
+            font-family: 'Merriweather', serif;
+            font-size: 1.35rem;
+            font-weight: 600;
+            opacity: 0.9;
             line-height: 1.4;
             position: absolute;
             bottom: 120px;
             width: 90%;
-            max-width: 700px;
+            max-width: 800px;
+            letter-spacing: 1.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
         .scroll-down-indicator {
             position: absolute;
@@ -141,7 +146,6 @@
         }
         .scroll-down-indicator svg { width: 60px; height: 60px; }
 
-        /* Layout & Typography */
         .page-container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
         .content-section {
             padding: 5rem 0;
@@ -152,7 +156,7 @@
         .content-section.in-view { opacity: 1; transform: translateY(0); }
         
         .section-layout {
-            max-width: 820px;
+            max-width: 1000px;
             margin: 0 auto;
             background: rgba(232, 230, 218, 0.5);
             backdrop-filter: blur(8px);
@@ -171,10 +175,9 @@
             line-height: 1.2;
         }
         .section-text p { 
-            line-height: 1.8; opacity: 0.9; margin-bottom: 1.5rem; font-size: 1rem; 
+            line-height: 1.8; opacity: 0.9; margin-bottom: 1.5rem; font-size: 1rem; text-align: left;
         }
 
-        /* Services */
         #hizmetler .service-list { list-style: none; margin-top: 2rem; padding: 0; }
         #hizmetler .service-list li {
             padding: 1.5rem;
@@ -192,13 +195,9 @@
             border-color: var(--accent-color);
             box-shadow: 0 4px 15px rgba(160, 138, 125, 0.15);
         }
-        #hizmetler .service-list li::before {
-            content: '›'; font-size: 1.5rem; margin-right: 1rem; color: var(--accent-color); line-height: 1.1; flex-shrink: 0; transition: transform 0.3s ease;
-        }
-        #hizmetler .service-list li:hover::before { transform: scale(1.3) translateX(3px); }
         
         .service-icon {
-            width: 40px; height: 40px; margin-right: 1rem; flex-shrink: 0; opacity: 0.7; transition: all 0.3s ease;
+            width: 40px; height: 40px; margin-right: 1.5rem; flex-shrink: 0; opacity: 0.7; transition: all 0.3s ease;
         }
         #hizmetler .service-list li:hover .service-icon { opacity: 1; transform: scale(1.1); }
         
@@ -210,8 +209,31 @@
             font-weight: 400; display: block; margin-top: 0.35rem; opacity: 0.8; font-size: 0.95rem;
         }
 
-        /* Approach (Timeline) */
-        #yaklasimimiz .section-layout { max-width: 1000px; }
+        .tech-marquee {
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 1rem 0;
+            opacity: 0.5;
+            background: transparent;
+            border-top: 1px solid rgba(160, 138, 125, 0.1);
+            border-bottom: 1px solid rgba(160, 138, 125, 0.1);
+            margin: 3rem auto;
+            max-width: 1000px;
+            width: 100%;
+        }
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 80s linear infinite;
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: var(--accent-color);
+            font-family: 'Merriweather', serif;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
         #yaklasimimiz .service-list {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -228,7 +250,11 @@
             margin: 0;
             display: block;
         }
-        #yaklasimimiz .service-list li::before { content: none; }
+        #yaklasimimiz .service-list li:hover {
+            background: transparent;
+            transform: translateY(-5px);
+            box-shadow: none;
+        }
         
         #yaklasimimiz .service-list-item::before {
             counter-increment: approach-counter;
@@ -247,12 +273,17 @@
         }
         #yaklasimimiz .service-list-item span { opacity: 0.85; line-height: 1.6; }
 
-        /* Comparison Table */
-        .why-obx-section { background: rgba(232, 230, 218, 0.3); max-width: 1000px; }
-        .why-subtitle {
-            font-size: 1.1rem; font-weight: 500; color: var(--accent-color);
-            margin-bottom: 4rem; text-align: center; max-width: 700px;
-            margin-left: auto; margin-right: auto; line-height: 1.6;
+	.why-obx-section { background: rgba(232, 230, 218, 0.3); }
+	.why-subtitle {
+            font-size: 1.1rem; 
+            font-weight: 500; 
+            color: var(--accent-color);
+            margin-bottom: 4rem; 
+            text-align: left; 
+            max-width: 100%;      
+            margin-left: 0; 
+            margin-right: auto; 
+            line-height: 1.6;
         }
         .comparison-container {
             display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-top: 2rem;
@@ -270,10 +301,13 @@
             box-shadow: 0 8px 32px rgba(160, 138, 125, 0.15);
             border: 1px solid rgba(160, 138, 125, 0.2);
         }
+        .obx-model h3 { color: var(--dark-text); }
         .comparison-list { list-style: none; padding: 0; }
         .comparison-list li {
             display: flex; align-items: flex-start; margin-bottom: 1.5rem;
         }
+        .comparison-list li:hover { background: none; transform: none; box-shadow: none; }
+
         .icon-circle, .icon-check {
             width: 24px; height: 24px; border-radius: 50%; display: inline-flex;
             align-items: center; justify-content: center; margin-right: 1rem; flex-shrink: 0; margin-top: 2px;
@@ -284,7 +318,6 @@
         .comparison-list strong { display: block; margin-bottom: 0.3rem; font-weight: 600; }
         .comparison-list span { font-size: 0.9rem; opacity: 0.8; line-height: 1.4; }
 
-        /* Button */
         .cta-container { text-align: center; margin-top: 3rem; }
         .main-cta-button {
             display: inline-block;
@@ -294,13 +327,19 @@
             border: 2px solid var(--accent-color);
             padding: 1rem 3rem; border-radius: 8px;
             text-decoration: none; transition: all 0.3s ease; letter-spacing: 0.5px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(160, 138, 125, 0.4); }
+            70% { box-shadow: 0 0 0 20px rgba(160, 138, 125, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(160, 138, 125, 0); }
         }
         .main-cta-button:hover {
             background: var(--accent-color); color: #FFF;
             transform: translateY(-3px); box-shadow: 0 8px 20px rgba(160, 138, 125, 0.3);
+            animation: none;
         }
 
-        /* Footer */
         footer {
             text-align: center; padding: 3rem 0 3rem 0;
             border-top: 1px solid var(--border-color);
@@ -320,22 +359,12 @@
         }
         
         .footer-contact-line {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
+            display: flex; justify-content: center; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap;
         }
         .footer-contact-line a {
-            color: var(--dark-text);
-            text-decoration: none;
-            font-weight: 500; /* Medium weight */
-            font-size: 1rem;
-            opacity: 0.9;
-            transition: color 0.3s;
+            color: var(--dark-text); text-decoration: none; font-weight: 500; font-size: 1rem; opacity: 0.9; transition: color 0.3s;
         }
         .footer-contact-line a:hover { color: var(--accent-color); }
-
         footer p.copyright { font-size: 0.85rem; opacity: 0.6; }
 
         @keyframes fadeInFromTop {
@@ -350,23 +379,55 @@
         
         @media (min-width: 1200px) {
             .section-text h2 { font-size: 2.2rem; }
-            .section-layout { max-width: 900px; }
         }
         
         @media (max-width: 768px) {
+            .top-bar { padding: 12px 20px; }
             .section-text h2 { font-size: 1.7rem; }
             .page-container { padding: 0 1.5rem; }
-            .top-bar { padding: 20px; }
             .hero-section .logo img { max-width: 80%; }
             .section-layout { padding: 1.5rem; }
             
-            #yaklasimimiz .service-list, 
-            .comparison-container { grid-template-columns: 1fr; gap: 2.5rem; }
+            #hizmetler .service-list li {
+                flex-direction: column; 
+                align-items: center; 
+                padding: 1.5rem; 
+                gap: 1rem;
+            }
+            #hizmetler .service-icon { 
+                width: 48px; 
+                height: 48px; 
+                margin-right: 0; 
+                margin-bottom: 0.5rem; 
+            }
+            #hizmetler .service-list-item strong {
+                text-align: center;
+                display: block;
+                width: 100%;
+            }
+            #hizmetler .service-list-item span {
+                text-align: left;
+                display: block;
+            }
+            
+            #yaklasimimiz .service-list { grid-template-columns: 1fr; gap: 3.5rem; }
+            #yaklasimimiz .service-list-item::before { font-size: 4rem; margin-bottom: 0.2rem; line-height: 1; display: block; }
+            #yaklasimimiz .service-list-item strong { margin-top: 0.5rem; font-size: 1.3rem; }
+            
+            .comparison-container { grid-template-columns: 1fr; gap: 2rem; }
+            .comparison-column { padding: 1.5rem 1rem; }
+            .comparison-list li { align-items: flex-start; }
+            .comparison-list .icon-check, .comparison-list .icon-circle { margin-top: 3px; }
             
             .obx-model { transform: scale(1.02); box-shadow: 0 12px 40px rgba(160, 138, 125, 0.2); }
-            .main-cta-button { width: 100%; max-width: 300px; padding: 1rem 2rem; font-size: 1rem; }
+            .traditional { opacity: 0.7; transform: scale(0.98); }
             
-            .footer-contact-line { flex-direction: column; gap: 0.8rem; }
+            .why-subtitle { font-size: 1rem; padding: 0 1rem; text-align: left; }
+            .main-cta-button { width: 100%; max-width: 100%; padding: 1.2rem; font-size: 1.1rem; }
+            .footer-contact-line { flex-direction: column; gap: 1rem; }
+
+            .marquee-content { font-size: 1.2rem; }
+            .tech-marquee { padding: 1rem 0; margin: 2.5rem 0; }
         }
         
         @media (max-width: 480px) {
@@ -399,7 +460,7 @@
     <div class="page-container">
         <header class="hero-section">
             <div class="logo">
-                <img src="logo.png" alt="OBX Logo" loading="lazy">
+                <img src="logo.png" alt="OBX Logo" loading="lazy" fetchpriority="high">
             </div>
             <p class="hero-tagline" data-lang-key="hero_tagline">Sistemlerinizin Sınırlarını Yeniden Tanımlayın</p>
             <a href="#hakkimizda" class="scroll-down-indicator">
@@ -474,6 +535,13 @@
                              </div></li>
                         </ul>
                     </div>
+                </div>
+            </div>
+
+            <div class="tech-marquee">
+                <div class="marquee-content">
+                    AS/RS SYSTEMS • SHUTTLE TECHNOLOGY • PLC & SCADA • WMS INTEGRATION • RGV & AGV • PICK TO LIGHT • SORTER SYSTEMS • RETROFIT • DATA LOGGING • INDUSTRIAL IOT • SERVO MOTION • 
+                    AS/RS SYSTEMS • SHUTTLE TECHNOLOGY • PLC & SCADA • WMS INTEGRATION • RGV & AGV • PICK TO LIGHT • SORTER SYSTEMS • RETROFIT • DATA LOGGING • INDUSTRIAL IOT • SERVO MOTION • 
                 </div>
             </div>
 
@@ -753,62 +821,6 @@
         animate();
 
         const translations = {
-            tr: {
-                hero_tagline: "Sistemlerinizin Sınırlarını Yeniden Tanımlayın",
-                about_title: "Görünmeyeni Çözen Uzmanlık",
-                about_p1: "OBX, endüstriyel sistemlerin derinliklerindeki potansiyeli gün yüzüne çıkarır. AS/RS ve Shuttle sistemlerinde uzmanlaşmış ekibimizle, WMS-PLC entegrasyonlarında verimlilik sadece rakamlar değil, kusursuz uyum içinde çalışan detayların senfonisidir. En ileri teknolojiyle harmanlanan deneyimimizle, sadece bugünün sorunlarını çözmekle kalmıyor, yarının fırsatlarını da bugünden inşa ediyoruz.",
-                about_p2: "Her projeyi benzersiz bir organizma gibi ele alıyor, retrofit ve modernizasyon çözümleriyle en küçük parçanın bile bütüne olan etkisini hesaplayarak, size özel, sürdürülebilir ve ölçeklenebilir çözümler üretiyoruz.",
-                services_title: "Mühendislik Hizmetlerimiz",
-                services_p1: "Teorinin ötesine geçerek, sahadaki gerçek ihtiyaçlarınıza odaklanan, pratik ve kalıcı çözümler üretiyoruz. AS/RS, Mekik/Shuttle ve konveyör sistemlerinde amacımız, operasyonel verimliliğinizi somut sonuçlarla artırmaktır.",
-                service_1_title: "Özelleştirilmiş Otomasyon & Mekanik Sistem Tasarımı",
-                service_1_desc: "Standart çözümlerin yetersiz kaldığı durumlarda, ihtiyacınıza özel makine, sistem ve otomasyon mimarileri tasarlayıp hayata geçiriyoruz. PLC/SCADA programlama ve mekik sistemleri uzmanlığı.",
-                service_2_title: "Yazılım & Algoritma Geliştirme",
-                service_2_desc: "WMS entegrasyonu, merkezi loglama sistemleri, kontrol yazılımları ve özel algoritmalar geliştiriyor, mevcut yazılımlarınızı iyileştiriyoruz. Dijital bakım ve raporlama çözümleri.",
-                service_3_title: "Sistem Modernizasyonu ve Retrofit",
-                service_3_desc: "Eskiyen veya desteği kesilen AS/RS, ASRS Crane ve otomasyon sistemlerinizi, mekanik ömrünü tamamlamadan güncel teknolojilerle yeniliyoruz. Sorter sistemleri optimizasyonu.",
-                service_4_title: "Teknik Eğitim ve Dokümantasyon",
-                service_4_desc: "Geliştirdiğimiz veya iyileştirdiğimiz sistemlerin ekibiniz tarafından etkin kullanımı için interaktif bakım prosedürleri ve anlaşılır teknik dokümanlar hazırlıyoruz.",
-                service_5_title: "Sistem Performans ve Bakım Anlaşması",
-                service_5_desc: "İşletmenize özel atanan mühendislik gücü. Periyodik saha kontrolleri, uzaktan sistem geliştirme desteği ve detaylı sağlık raporlamaları ile riskleri minimize ediyoruz. Anlaşmalı müşterilerimize özel proje iskontoları ve öncelikli servis garantisi.",
-                approach_title: "Pratik ve Sonuç Odaklı Yaklaşımımız",
-                approach_p1: "Çözümlerimizi kanıtlanmış bir metodoloji ile geliştiriyoruz. Süreç boyunca sizinle yakın iş birliği içinde çalışarak projenin her adımında şeffaflığı ve hedeflere uygunluğu sağlıyoruz.",
-                approach_1_title: "Keşif ve Analiz",
-                approach_1_desc: "Sadece dinlemiyor, anlamaya odaklanıyoruz. İhtiyaçlarınızı ve mevcut durumu yerinde inceliyor, hedeflerinizi netleştirerek projenin temelini sağlam atıyoruz.",
-                approach_2_title: "Tasarım ve Geliştirme",
-                approach_2_desc: "Analiz sonuçlarına göre en uygun donanım ve yazılım mimarisini tasarlıyoruz. Olası riskleri en aza indirerek en verimli ve sürdürülebilir çözümü geliştiriyoruz.",
-                approach_3_title: "Uygulama ve Destek",
-                approach_3_desc: "Geliştirdiğimiz çözümü sistemlerinize entegre ediyor, devreye alıyoruz. Proje tamamlandıktan sonra da teknik destek ve eğitimlerle yanınızda olmaya devam ediyoruz.",
-                contact_title: "Geleceği Birlikte Tasarlayalım",
-                contact_p1: "Eğer siz de standartların ötesine geçmek, operasyonlarınızdaki gizli potansiyeli ortaya çıkarmak ve sektörünüzde fark yaratmak istiyorsanız, tanışma zamanı gelmiş demektir. Projenizin detaylarını görüşmek ve \"görünmeyeni\" birlikte çözmek için bize ulaşın.",
-                contact_button: "Bizimle İletişime Geçin",
-                experience_text: "Alanında 20+ Yıllık Tecrübe",
-                address_text: "Gebze Match Plaza, Ofis No: 45/627, Hacıhalil Mah. 1207 Sok. No: 1, Kocaeli / Türkiye",
-                footer_text: "© 2025 OBX Endüstriyel Otomasyon ve Danışmanlık. Tüm Hakları Saklıdır.",
-                why_title: "Neden OBX?",
-                why_subtitle: "Amacımız sisteminizi bize bağımlı kılmak değil; ekibinizi güçlendirerek destek ihtiyacınızı minimuma indirmektir.",
-                traditional_title: "Geleneksel Destek Anlayışı",
-                traditional_1_title: "Sürekli Müdahale",
-                traditional_1_desc: "Arızalar tekrarlanır, çözümler geçicidir",
-                traditional_2_title: "Bilgi Dışarıda",
-                traditional_2_desc: "Teknik bilgi tedarikçide kalır",
-                traditional_3_title: "Artan Bağımlılık",
-                traditional_3_desc: "Zamanla dışa bağımlılık artar",
-                traditional_4_title: "Belirsiz Maliyetler",
-                traditional_4_desc: "Sürpriz faturalar, öngörülemeyen giderler",
-                traditional_5_title: "Reaktif Yaklaşım",
-                traditional_5_desc: "Sorun çıkınca müdahale edilir",
-                obx_title: "OBX Mühendislik Modeli",
-                obx_1_title: "Azalan Müdahale",
-                obx_1_desc: "Kalıcı çözümler, optimize sistemler",
-                obx_2_title: "Bilgi Transferi",
-                obx_2_desc: "Know-how kuruma aktarılır",
-                obx_3_title: "Güçlenen Kurum",
-                obx_3_desc: "Ekibiniz yetkinlik kazanır",
-                obx_4_title: "Öngörülebilir Bütçe",
-                obx_4_desc: "Sabit maliyetler, şeffaf fiyatlandırma",
-                obx_5_title: "Proaktif Çözümler",
-                obx_5_desc: "Sorunları önceden tespit ve önleme"
-            },
             en: {
                 hero_tagline: "Redefine the Limits of Your Systems",
                 about_title: "Expertise That Solves The Unseen",
@@ -927,6 +939,15 @@
         const translatableElements = document.querySelectorAll('[data-lang-key]');
 
         function setLanguage(lang) {
+            if (lang === 'tr') {
+                langLinks.forEach(link => {
+                    link.classList.toggle('active', link.dataset.lang === lang);
+                });
+                document.documentElement.lang = lang;
+                localStorage.setItem('obx-lang', lang);
+                return;
+            }
+            
             translatableElements.forEach(el => {
                 const key = el.dataset.langKey;
                 if (translations[lang] && translations[lang][key]) {
