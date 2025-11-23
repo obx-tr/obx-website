@@ -714,6 +714,7 @@
         }, { threshold: 0.15 });
         sections.forEach(section => observer.observe(section));
 
+        /* --- PARTICLE CANVAS START --- */
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
 
@@ -819,7 +820,10 @@
 
         init();
         animate();
+        /* --- PARTICLE CANVAS END --- */
 
+
+        /* --- TRANSLATION LOGIC FIX START --- */
         const translations = {
             en: {
                 hero_tagline: "Redefine the Limits of Your Systems",
@@ -938,8 +942,30 @@
         const langLinks = document.querySelectorAll('.lang-link');
         const translatableElements = document.querySelectorAll('[data-lang-key]');
 
+        // DÜZELTME 1: Sayfa ilk açıldığında (henüz çeviri yapılmamışken) Türkçe orijinalleri hafızaya atıyoruz.
+        translatableElements.forEach(el => {
+            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                el.dataset.originalText = el.placeholder;
+            } else {
+                // Boşlukları temizleyerek alalım, ama HTML yapısını bozmadan textContent kullanıyoruz
+                el.dataset.originalText = el.textContent;
+            }
+        });
+
         function setLanguage(lang) {
+            // DÜZELTME 2: TR seçildiğinde hafızadaki orijinal metni geri yüklüyoruz.
             if (lang === 'tr') {
+                translatableElements.forEach(el => {
+                    if (el.dataset.originalText) {
+                         if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                            el.placeholder = el.dataset.originalText;
+                        } else {
+                            el.textContent = el.dataset.originalText;
+                        }
+                    }
+                });
+                
+                // Aktif link ve localStorage işlemleri
                 langLinks.forEach(link => {
                     link.classList.toggle('active', link.dataset.lang === lang);
                 });
@@ -948,6 +974,7 @@
                 return;
             }
             
+            // Diğer diller (EN/DE) için mevcut mantık
             translatableElements.forEach(el => {
                 const key = el.dataset.langKey;
                 if (translations[lang] && translations[lang][key]) {
@@ -977,7 +1004,6 @@
             const savedLang = localStorage.getItem('obx-lang') || 'tr';
             setLanguage(savedLang);
         });
-
     </script>
 </body>
 </html>
